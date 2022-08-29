@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import CardNameInput from '../../component/cardname-input/cardname-input.component';
+import CardData from '../../component/card-data/CardData.component';
+import Navbar from '../../component/Navbar/navbar.component';
+
 
 const HomePage = () => {
     
     const [cardData, setCardData] = useState('');
     const [searchField, setSearchField] = useState('');
+    const [showCard, setShowCard] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -15,7 +20,8 @@ const HomePage = () => {
             const jsonResponse = await response.json();
             const cardData = {
                 name: jsonResponse.data[0].name,
-                image: jsonResponse.data[0].card_images[2].image_url
+                image: jsonResponse.data[0].card_images[2].image_url,
+                price: jsonResponse.data[0].card_prices[0].cardmarket_price
             }
             setCardData(cardData);
 
@@ -29,22 +35,34 @@ const HomePage = () => {
         setSearchField(searchField)
         console.log(searchField);
     } 
+
+    const handleSubmit = (event) => {
+        if (event.key === 'Enter') {
+            const showCard = true;
+            setShowCard(showCard);
+            event.preventDefault();
+            fetchData();
+        }
+    }
+
+    const addToCart = () => {
+        cartItems.push(cardData);
+        setCartItems(cartItems);
+        console.log(cartItems);
+        // <Navbar cartItems={cartItems} />
+    }
     
     return (
         <div className='homepage' props = {cardData}>
-            Home Page
+            <h1>Home Page</h1>
             <CardNameInput  
                 handleChange = {handleChange}
-                handleSubmit = {(event) => {
-                    if (event.key === 'Enter') {
-                        event.preventDefault();
-                        fetchData();
-                    }
-                } } 
+                handleSubmit = {handleSubmit} 
             />
             <div>
-                <h1>{cardData.name}</h1>
-                <img src={cardData.image} alt={cardData.name} />
+                {
+                    (showCard) ? (<CardData cardData={cardData} addToCart={addToCart} />) : null
+                }
             </div>
         </div>
     );

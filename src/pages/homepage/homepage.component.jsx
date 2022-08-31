@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import CardNameInput from '../../component/cardname-input/cardname-input.component';
 import CardData from '../../component/card-data/CardData.component';
 import Navbar from '../../component/Navbar/navbar.component';
-
+import { CartContext } from '../../component/cart/useCart';
 
 const HomePage = () => {
-    
+    const cart = useContext(CartContext);
+    const { operations } = cart;
+
     const [cardData, setCardData] = useState('');
     const [searchField, setSearchField] = useState('');
     const [showCard, setShowCard] = useState(false);
-    const [cartItems, setCartItems] = useState([]);
-
+    
     const fetchData = async () => {
         try {
             //get the data from the api
@@ -45,13 +46,6 @@ const HomePage = () => {
         }
     }
 
-    const addToCart = () => {
-        cartItems.push(cardData);
-        setCartItems(cartItems);
-        console.log(cartItems);
-        // <Navbar cartItems={cartItems} />
-    }
-    
     return (
         <div className='homepage' props = {cardData}>
             <h1>Home Page</h1>
@@ -61,7 +55,12 @@ const HomePage = () => {
             />
             <div>
                 {
-                    (showCard) ? (<CardData cardData={cardData} addToCart={addToCart} />) : null
+                    (showCard) ? (
+                        <CardData 
+                            cardData={cardData} 
+                            addToCart={(e) => operations.addToCart(cardData)} 
+                        />
+                    ) : null
                 }
             </div>
         </div>

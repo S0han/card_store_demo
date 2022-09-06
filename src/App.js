@@ -16,7 +16,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path='/' element={<HomePage />} />
-          <Route path='/checkout' component={<CheckoutPage />} />
+          <Route path='/checkout' element={<CheckoutPage />} />
         </Routes>
       </div>
     </CartContext.Provider>

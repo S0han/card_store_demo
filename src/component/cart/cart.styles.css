@@ -14,14 +14,21 @@
     padding: 5px;
 }
 
-.cart-content img {
-    height: 75px;
-    width: 75px;
-}
-
 .cart-content-entry {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    vertical-align: middle;
     margin-bottom: 10px;
+}
+
+.delete-button {
+    height: 16px;
+    width: 16px;
+    margin-top: 15px;
+}
+
+.card-image {
+    height: 75px;
+    width: 75px;
 }

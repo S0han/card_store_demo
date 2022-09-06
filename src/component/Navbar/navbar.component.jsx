@@ -9,31 +9,25 @@ import carty from '../../assets/carty.png';
 import { CartContext } from '../../component/cart/useCart';
 
 const Navbar = () => {
+
     const cart = useContext(CartContext);
-    const { data } = cart;
-
-    const [showCart, setShowCart] = useState(false);
-
-    const toggleShowCart = () => {
-      setShowCart(!showCart);
-      console.log('cart clicked');
-    }
+    const {data, operations} = cart;
 
     return (
         <div>
             <div className='navbar'>
                 <Link to='/'>Homepage</Link>
-                <Link to='/checkout'>Checkout</Link>
                 <div 
                     className='shopcart'
-                    onClick={toggleShowCart}
+                    onClick={operations.toggleShowCart}
                 >
                     <img src={carty} alt="shopping cart" />
                 </div>
             </div>
             <div>
                 {
-                    (showCart) ? (<Cart cartItems={data.cartItems} />) : null
+                    // (showCart) ? (<Cart cartItems={data.cartItems} />) : null
+                    (data.showCart) ? (<Cart />) : null
                 }
             </div>
         </div>

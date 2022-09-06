@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 
 import './cart.styles.css';
 
@@ -6,17 +6,20 @@ import { CartContext } from './useCart';
 
 import remove from '../../assets/delete.png';
 
-const Cart = ({ cartItems }) => {
+const Cart = () => {
 
     const cart = useContext(CartContext);
-    const { data } = cart;
+    const { data, operations } = cart;
 
-    let renderCart = cartItems.map((item, i) => 
+    let renderCart = data.cartItems.map((item, i) => 
         (
             <div key={i} className='cart-content-entry'>
                 <p>{item.name}</p>
-                <img src={item.image} alt={item.name} />
-                <p>{item.price}</p>
+                <img className='card-image' src={item.image} alt={item.name} />
+                <p>${item.price}</p>
+                <div className='delete-button' onClick={(e) => operations.removeCartItem(i)}>
+                    <img src={remove} alt='delete button' />
+                </div>
             </div>
         )
     );
@@ -25,12 +28,16 @@ const Cart = ({ cartItems }) => {
         <div className='cart'>
             <div className='cart-content'>
                 {
-                    (cartItems != null) ? renderCart : null
+                    (data.cartItems !== null) ? renderCart : null
                 }
             </div>
-            <div><p>{data.showTotal}</p></div>
+            <div className='cart-total-value'>
+                <p>
+                    {(data.showTotal !== 0) ? `Total: $${data.showTotal}` : 'The Shopping Cart Is Empty'}
+                </p>
+            </div>
             <div className='checkout-button'>
-                <button>CHECKOUT</button>
+                <button onClick={operations.checkOut}>CHECKOUT</button>
             </div>
         </div>
     );

@@ -1,11 +1,25 @@
 
-import React, { useState, createContext} from 'react'
+import React, { useState, createContext} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const CartContext = createContext();
 
 export function useCart () {
-  const [cartItems, setCartItems] = useState([]);
+  let [cartItems, setCartItems] = useState([]);
   let [showTotal, setShowTotal] = useState(0);
+  let [showCart, setShowCart] = useState(false);
+  const navigate = useNavigate();
+
+  
+
+  const toggleShowCart = () => {
+    setShowCart(!showCart);
+    console.log('cart clicked');
+  }
+
+  const navigateToCheckoutPage = () => {
+    navigate('/checkout');
+  }
 
   const addToCart = (cardData) => {
     cartItems.push(cardData);
@@ -24,13 +38,31 @@ export function useCart () {
     console.log(showTotal);
   }
 
+  const removeCartItem = (idx) => {
+    console.log(idx);
+    cartItems = cartItems.filter((element, i) => (i !== idx))
+    setCartItems(cartItems);
+    totalAmount(cartItems);
+    console.log(cartItems);
+  }
+
+  const checkOut = () => {
+    console.log('check out button pressed');
+    setShowCart(!showCart);
+    navigateToCheckoutPage();
+  }
+
   return {
     data: {
       cartItems,
-      showTotal
+      showTotal,
+      showCart 
     },
     operations: {
-      addToCart
+      addToCart,
+      removeCartItem,
+      checkOut,
+      toggleShowCart
     }
   }
 }

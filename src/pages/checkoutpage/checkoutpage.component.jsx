@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
 import { CartContext } from '../../component/cart/useCart';
-
 import remove from '../../assets/delete.png';
+import PaymentForm from '../../component/payment-form/payment-form.component';
 
 import './checkoutpage.styles.css';
 
@@ -36,9 +36,8 @@ import './checkoutpage.styles.css';
                     {(data.showTotal !== 0) ? `Total: $${data.showTotal}` : 'The Shopping Cart Is Empty'}
                 </p>
             </div>
-            <div className='checkout-btn'>
-                <button onClick={null}>CONFIRM PURCHASE</button>
-            </div>
+            <div></div>
+            <PaymentForm />
         </div>
     );
 }
